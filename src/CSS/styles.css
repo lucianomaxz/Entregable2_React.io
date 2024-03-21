@@ -74,3 +74,20 @@ body{
 .btnIncrement{
     margin-left: 10px;
 }
+.cartWidget{
+    font-size: 4rem;
+}
+.numberCartWidget{
+    font-size: 2rem;
+}
+.btnTotal{
+
+        font-family: verdana;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 22px;
+        color: rgb(57 145 75);
+}
+.navStyle{
+    background-color: #939ca4;
+}

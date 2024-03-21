@@ -1,8 +1,11 @@
+import { collection,addDoc } from "firebase/firestore";
+import { db } from '../config/firebaseConfig';
+
 const products = [
     {
-        "id": 1,
+
         "name": "REMERA AFA WC ANIVERSARIO 4",
-        "precio": "51.999",
+        "precio": 51999.99,
         "category": "REMERA",
         "talle": "S",
         "stock": 3,
@@ -12,9 +15,9 @@ const products = [
         "mostrar":true,
     },
     {
-        "id": 2,
+
         "name": "MUSCULOSA ADIZERO",
-        "precio": "69.999",
+        "precio": 69999.99,
         "category": "MUSCULOSA",
         "talle": "M",
         "stock": 2,
@@ -24,9 +27,9 @@ const products = [
         "mostrar":false,
     },
     {
-        "id": 3,
+
         "name": "REMERA AFA WC ANIVERSARIO 2",
-        "precio": "51.999",
+        "precio": 51999.99,
         "category": "REMERA",
         "talle": "S",
         "stock": 3,
@@ -36,9 +39,9 @@ const products = [
         "mostrar":true,
     },
     {
-        "id": 4,
+
         "name": "MUSCULOSA DE ENTRENAMIENTO TECHFIT",
-        "precio": "37.999",
+        "precio": 37999.99,
         "category": "MUSCULOSA",
         "talle": "M",
         "stock": 2,
@@ -48,9 +51,9 @@ const products = [
         "mostrar":false,
     },
     {
-        "id": 5,
+
         "name": "REMERA AFA WC ANIVERSARIO 5",
-        "precio": "54.999",
+        "precio": 54999.99,
         "category": "REMERA",
         "talle": "S",
         "stock": 3,
@@ -60,9 +63,9 @@ const products = [
         "mostrar":true,
     },
     {
-        "id": 6,
+
         "name": "MUSCULOSA ADIZERO RUNNING",
-        "precio": "67.999",
+        "precio": 67999.99,
         "category": "MUSCULOSA",
         "talle": "M",
         "stock": 2,
@@ -72,9 +75,9 @@ const products = [
         "mostrar":false,
     },
     {
-        "id": 7,
+
         "name": "CHOMBA ARGENTINA TIRO 23",
-        "precio": "33.999",
+        "precio": 33999.99,
         "category": "REMERA",
         "talle": "S",
         "stock": 4,
@@ -84,9 +87,9 @@ const products = [
         "mostrar":true,
     },
     {
-        "id": 8,
+
         "name": "MUSCULOSA ADIZERO",
-        "precio": "69.999",
+        "precio": 69999.99,
         "category": "MUSCULOSA",
         "talle": "M",
         "stock": 3,
@@ -96,9 +99,9 @@ const products = [
         "mostrar":false,
     },
     {
-        "id": 9,
+
         "name": "REMERA ESSENTIALS LOGO LINEAL BORDADO TEJIDO JERSEY",
-        "precio": "28.999",
+        "precio": 28999.99,
         "category": "REMERA",
         "talle": "S",
         "stock": 5,
@@ -108,9 +111,9 @@ const products = [
         "mostrar":true,
     },
     {
-        "id": 10,
+
         "name": "MUSCULOSA DE ENTRENAMIENTO YOGA BASE",
-        "precio": "44.999",
+        "precio": 44999.99,
         "category": "MUSCULOSA",
         "talle": "M",
         "stock": 2,
@@ -120,9 +123,9 @@ const products = [
         "mostrar":false,
     },
     {
-        "id": 11,
+
         "name": "RP CO TEE",
-        "precio": "51.999",
+        "precio": 51999.99,
         "category": "REMERA",
         "talle": "S",
         "stock": 8,
@@ -132,9 +135,9 @@ const products = [
         "mostrar":true,
     },
     {
-        "id": 12,
+
         "name": "MUSCULOSA DE ENTRENAMIENTO HIIT AEROREADY QUICKBURN",
-        "precio": "60.999",
+        "precio": 60999.99,
         "category": "MUSCULOSA",
         "talle": "M",
         "stock": 4,
@@ -145,32 +148,9 @@ const products = [
     },
 ];
 
-export const getProducts = () => {
 
-    return new Promise ( (resolve, reject) => {
-        if (products.length > 0) {
-            setTimeout( () => {
-                resolve(products)
-            },1500);
-        }else {
-            reject("No hay productos");
-        }
-    });
-};
-
-export const getProduct = (id) => {
-
-    return new Promise ( (resolve, reject) => {
-        if (products.length > 0) {
-            const product = products.find( (p) => p.id == id);
-            setTimeout( () => {
-                if(!product){
-                    reject(`No se encuentra el producto con el id ${id}`);
-                }
-                resolve(product);
-            },1000);
-        }else {
-            reject("No hay productos");
-        }
-    });
-};
+export const seedProducts = () => {
+    products.forEach( product => {
+        addDoc( collection( db, "products"), product );
+    })
+}

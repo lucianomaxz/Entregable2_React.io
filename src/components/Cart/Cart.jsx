@@ -1,9 +1,13 @@
+import { CartShow } from "../CartShow/CartShow";
+
 
 export const Cart = () => {
+
   return (
-    <h1>
-      CARRITO VACIO
-    </h1>
+    <>
+        <CartShow></CartShow>
+    </>
+
   )
 }
 

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
-import { getProduct } from "../../asyncMock";
 import { ItemDetail } from "../ItemDetail/ItemDetail";
 import { LuLoader2 } from "react-icons/lu";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from '../../config/firebaseConfig';
 
 export const ItemDetailContainer = () => {
 
@@ -10,16 +11,26 @@ export const ItemDetailContainer = () => {
     const [item, setItem] = useState(null);
     const [isLoading, setisLoading] = useState(true);
 
+
+    const getProductDB = (id) => {
+        const productRef = doc( db, "products", id );
+
+        getDoc(productRef)
+            .then( response => {
+                const product = {
+                    id: response.id,
+                    ...response.data(),
+                }
+
+                setItem(product);
+                setisLoading(false);
+            })
+    }
+
     useEffect(() => {
-        setisLoading(true);
 
-        getProduct(id)
-            .then( resp => {
-                setItem(resp);
-                setisLoading(false);})
-            .catch( err => console.log("ERROR 404"))
+         getProductDB(id);
 
-        
     },[]);
   return (
         <>

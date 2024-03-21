@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
-import { getProducts } from "../../asyncMock";
 import { ItemList } from "../ItemList/ItemList";
 import { LuLoader2 } from "react-icons/lu";
 import { useParams } from "react-router-dom";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../config/firebaseConfig";
+
+
 
 export const ItemListContainer = () => {
 
@@ -12,23 +15,34 @@ export const ItemListContainer = () => {
   const [products, setproducts] = useState([]);
   const [isLoading, setisLoading] = useState(true);
   
+  const getProductsDB = ( category ) => {
+      const myProducts = category ? query( collection(db, "products"), where( "category", "==", category ) ) : collection(db, "products");
+
+        getDocs(myProducts)
+          .then( response => {
+            const productList = response.docs.map( doc => {
+              const item = {
+                id: doc.id,
+                ...doc.data(),
+              }
+
+              return item;
+
+            } )
+
+            setproducts(productList);
+            setisLoading(false);
+          })
+  }
 
   useEffect( () => {
     setisLoading(true);
-    getProducts()
-      .then( resp => {
-        // Verifica si existe una categoria como paremetro
-        if(category) {
-          const productsFilter = resp.filter( product => product.category === category);
-          setproducts(productsFilter);
-        }else{
-          //si no existe una categoria como parametro seteamos todos los productos en el state products
-          setproducts(resp);
-        }
-          setisLoading(false);
-      })
+    getProductsDB(category);
 
-  }, [category])
+
+    // seedProducts();
+
+  }, [category]);
   
 
     
